@@ -8,7 +8,6 @@ import android.widget.EditText;
 
 import android.widget.TextView;
 
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,31 +15,34 @@ public class MainActivity extends AppCompatActivity {
     EditText inputNumber;
     TextView textView;
     int number;
-    ServerCommunicator serverCommunicator;
+    NetworkTask nwt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        nwt=new NetworkTask();
 
-        sendButton=findViewById(R.id.sendButton);
-        inputNumber=findViewById(R.id.inputField);
-        textView=findViewById(R.id.textView);
-        serverCommunicator = new ServerCommunicator();
+        sendButton = findViewById(R.id.sendButton);
+        inputNumber = findViewById(R.id.inputField);
+        textView = findViewById(R.id.textView);
+
 
         sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                number=Integer.valueOf(inputNumber.getText().toString());
-                if(isValid(number)){
-                    serverCommunicator.setMatNumber(number);
-                    textView.setText(""+serverCommunicator.getMatNumber());
-                }else{
-                    textView.setText("Illegal Argument!");
+                @Override
+                public void onClick(View view) {
+                    number = Integer.valueOf(inputNumber.getText().toString());
+                    if (isValid(number)) {
+                        nwt.execute(number);
+                        //textView.setText(serverCommunicator.getData());
+                    } else {
+                        textView.setText("Illegal Argument!");
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
+
 
     private boolean isValid(int number){
         boolean isvalid = true;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             ++count;
         }
 
-        if(count<8){
+        if(count!=8){
             return isvalid=false;
         }
 
