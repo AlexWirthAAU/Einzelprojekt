@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.Socket;
+import java.util.Arrays;
 
 
 public class ServerCommunicator  {
@@ -17,8 +18,7 @@ public class ServerCommunicator  {
     private Socket socket = null;
     private DataOutputStream dataOutputStream=null;
     private DataInputStream dataInputStream=null;
-    private InputStream is = null;
-    private int matNumber;
+    private String matNumber=null;
 
     public ServerCommunicator() {
 
@@ -27,27 +27,19 @@ public class ServerCommunicator  {
             socket = new Socket("se2-isys.aau.at", 53212);
             dataOutputStream=new DataOutputStream(socket.getOutputStream());
             dataInputStream=new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            is = socket.getInputStream();
-
             Log.d("DEBUG","Socket and Output created!");
         }catch (IOException e){
-            Log.e("DEBUG","Error creating socket: "+e.getMessage());
+            Log.e("ERROR","Error creating socket: "+e.getMessage());
         }
     }
 
-
-
-    public void setMatNumber(int matNumber) {
+    public void setMatNumber(String matNumber) {
         this.matNumber = matNumber;
     }
 
-    public int getMatNumber() {
-        return matNumber;
-    }
-
-    public void sendData(int matNumber){
+    public void sendData(String matNumber){
         Log.d("DEBUG","Übergebene Nummer: "+matNumber);
-        byte[] data = (String.valueOf(matNumber)+"\r").getBytes();
+        byte[] data = (matNumber+"\r").getBytes();
 
         Log.d("DEBUG","Socket offen?:" +socket.isConnected());
         try{
@@ -55,30 +47,33 @@ public class ServerCommunicator  {
             dataOutputStream.flush();
             Log.d("DEBUG","sendData() called");
         }catch (IOException e){
-            Log.e("DEBUG","Failed to send data: "+e.getLocalizedMessage());
+            Log.e("ERROR","Failed to send data: "+e.getLocalizedMessage());
         }
     }
 
     public String getData(){
         Log.d("DEBUG","getData() called");
         String output="";
-
         try {
             output=dataInputStream.readLine();
         }catch (IOException e){
-            Log.d("DEBUG: ",e.getMessage() );
+            Log.d("ERROR: ",e.getMessage() );
         }
         return output;
     }
 
-    /*
-    public String sortMatrikelNumber(int[] numberInArray){
-        String number="";
-        for (int i = 0; i < numberInArray; i++) {
 
+    public String sortMatrikelNumber(){
+        int[] numbers;
+        numbers=splitNumber();
+        String number="";
+        Arrays.sort(numbers);
+        for (int i = 0; i < numbers.length; i++) {
+            number=number+numbers[i];
         }
+        return number;
     }
-     */
+
 
     private int[] splitNumber(){
         String number = ""+this.matNumber;

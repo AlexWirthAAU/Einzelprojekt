@@ -14,8 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button sendButton;
     EditText inputNumber;
-    TextView textView;
-    int number;
+    TextView textView, textViewMatrikel, textViewSorted;
+    String number;
     NetworkTask nwt;
 
 
@@ -27,45 +27,32 @@ public class MainActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.sendButton);
         inputNumber = findViewById(R.id.inputField);
         textView = findViewById(R.id.textView);
-
+        textViewMatrikel=findViewById(R.id.textView2);
+        textViewSorted=findViewById(R.id.sortedNumber);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     nwt=new NetworkTask();
-                    number = Integer.valueOf(inputNumber.getText().toString());
-                    if (isValid(number)) {
-                        //nwt.execute(number);
+                    number=inputNumber.getText().toString();
+                    textViewMatrikel.setText(number);
+                    inputNumber.getText().clear();
+
+                    if (number.length()==8) {
                         try {
-                            String result = nwt.execute(number).get();
-                            Log.d("DEBUG","Result: "+result);
+                            String[] results = nwt.execute(number).get();
+                            String result = results[0];
+                            String sorted = results[1];
                             textView.setText(result);
+                            textViewSorted.setText(sorted);
                             nwt=null;
                         }catch (Exception e){
-                            Log.d("DEBUG", e.getMessage());
+                            Log.d("ERROR", e.getMessage());
                         }
                     } else {
-                        textView.setText("Illegal Argument!");
+                        textView.setText("Eine österreichische Matrikelnummer hat 8 Ziffern!");
                     }
                 }
             });
         }
-
-
-    private boolean isValid(int number){
-        boolean isvalid = true;
-        int num=number;
-        int count=0;
-
-        while (num!=0){
-            num=num/10;
-            ++count;
-        }
-
-        if(count!=8){
-            return isvalid=false;
-        }
-
-        return isvalid;
-    }
 }
