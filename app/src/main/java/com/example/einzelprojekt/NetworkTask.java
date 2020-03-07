@@ -1,10 +1,11 @@
 package com.example.einzelprojekt;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.Objects;
 
-public class NetworkTask extends AsyncTask<Integer,Integer,String>{
+public class NetworkTask extends AsyncTask<Integer,Void,String>{
 
     public NetworkTask(){
 
@@ -12,15 +13,13 @@ public class NetworkTask extends AsyncTask<Integer,Integer,String>{
 
     @Override
     protected String doInBackground(Integer... number) {
+        int num = number[0];
 
-        //TODO Find solution for handing over number
         ServerCommunicator serverCommunicator = new ServerCommunicator();
-        serverCommunicator.setMatNumber(11704244);
-        serverCommunicator.sendData(11704244);
-        serverCommunicator.getData();
+        serverCommunicator.setMatNumber(num);
+        serverCommunicator.sendData(num);
 
-        //serverCommunicator.leoSocketExample();
-        return null;
+        return serverCommunicator.getData();
     }
 
 

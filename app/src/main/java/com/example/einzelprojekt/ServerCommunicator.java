@@ -1,26 +1,22 @@
 package com.example.einzelprojekt;
 
-import android.os.AsyncTask;
-import android.os.StrictMode;
+;
 import android.util.Log;
-
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.math.BigInteger;
+
 import java.net.Socket;
-import java.nio.Buffer;
+
 
 public class ServerCommunicator  {
 
 
     private Socket socket = null;
     private DataOutputStream dataOutputStream=null;
+    private DataInputStream dataInputStream=null;
     private InputStream is = null;
     private int matNumber;
 
@@ -30,6 +26,7 @@ public class ServerCommunicator  {
             Log.d("DEBUG","Try to open socket...");
             socket = new Socket("se2-isys.aau.at", 53212);
             dataOutputStream=new DataOutputStream(socket.getOutputStream());
+            dataInputStream=new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             is = socket.getInputStream();
 
             Log.d("DEBUG","Socket and Output created!");
@@ -49,6 +46,7 @@ public class ServerCommunicator  {
     }
 
     public void sendData(int matNumber){
+        Log.d("DEBUG","Übergebene Nummer: "+matNumber);
         byte[] data = (String.valueOf(matNumber)+"\r").getBytes();
 
         Log.d("DEBUG","Socket offen?:" +socket.isConnected());
@@ -63,23 +61,14 @@ public class ServerCommunicator  {
 
     public String getData(){
         Log.d("DEBUG","getData() called");
-        String dataOutput="";
+        String output="";
 
         try {
-            int buffSize = socket.getReceiveBufferSize();
-            Log.d("DEBUG","Buffer size: "+buffSize);
-
-            if (buffSize > 0) {
-                byte[] buff = new byte[buffSize];
-                int result = is.read(buff);
-                dataOutput= new String(buff, 0, result);
-            }
-            Log.d("DEBUG","Data: "+dataOutput);
-
+            output=dataInputStream.readLine();
         }catch (IOException e){
-            Log.e("DEBUG","Error receiving data: "+e.getMessage());
+            Log.d("DEBUG: ",e.getMessage() );
         }
-        return dataOutput;
+        return output;
     }
 
     /*

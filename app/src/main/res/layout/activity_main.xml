@@ -34,8 +34,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="209dp"
-        android:layout_height="35dp"
+        android:layout_width="305dp"
+        android:layout_height="120dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

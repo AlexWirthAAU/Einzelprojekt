@@ -2,6 +2,7 @@ package com.example.einzelprojekt;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        nwt=new NetworkTask();
 
         sendButton = findViewById(R.id.sendButton);
         inputNumber = findViewById(R.id.inputField);
@@ -32,10 +32,18 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    nwt=new NetworkTask();
                     number = Integer.valueOf(inputNumber.getText().toString());
                     if (isValid(number)) {
-                        nwt.execute(number);
-                        //textView.setText(serverCommunicator.getData());
+                        //nwt.execute(number);
+                        try {
+                            String result = nwt.execute(number).get();
+                            Log.d("DEBUG","Result: "+result);
+                            textView.setText(result);
+                            nwt=null;
+                        }catch (Exception e){
+                            Log.d("DEBUG", e.getMessage());
+                        }
                     } else {
                         textView.setText("Illegal Argument!");
                     }
