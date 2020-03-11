@@ -50,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("ERROR", e.getMessage());
                         }
                     } else {
+                        textViewMatrikel.setText("");
                         textView.setText("Eine österreichische Matrikelnummer hat 8 Ziffern!");
+                        textViewSorted.setText("");
+
                     }
                 }
             });

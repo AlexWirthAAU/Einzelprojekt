@@ -7,14 +7,15 @@
     tools:context=".MainActivity">
 
     <EditText
+        android:gravity="center"
         android:id="@+id/inputField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="177dp"
+        android:layout_height="40dp"
         android:autofillHints=""
+        android:digits="0123456789"
         android:ems="10"
         android:hint="Matrikelnummer"
         android:inputType="number"
-        android:digits="0123456789"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,20 +24,23 @@
 
     <Button
         android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="145dp"
+        android:layout_height="58dp"
         android:text="Senden"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.695" />
+        app:layout_constraintVertical_bias="0.614" />
 
     <TextView
+        android:textSize="18dp"
+        android:gravity="center"
         android:id="@+id/textView"
         android:layout_width="305dp"
         android:layout_height="120dp"
+        android:fontFamily="sans-serif"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,10 +50,11 @@
         app:layout_constraintVertical_bias="0.397" />
 
     <TextView
+        android:textSize="16dp"
+        android:gravity="left"
         android:id="@+id/textView2"
         android:layout_width="110dp"
         android:layout_height="35dp"
-        android:text="Deine Matrikelnummer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.318"
@@ -58,6 +63,8 @@
         app:layout_constraintVertical_bias="0.085" />
 
     <TextView
+        android:textSize="16dp"
+        android:gravity="right"
         android:id="@+id/sortedNumber"
         android:layout_width="110dp"
         android:layout_height="35dp"
