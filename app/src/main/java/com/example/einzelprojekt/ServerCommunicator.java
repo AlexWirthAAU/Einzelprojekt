@@ -68,8 +68,16 @@ public class ServerCommunicator  {
         numbers=splitNumber();
         String number="";
         Arrays.sort(numbers);
+
         for (int i = 0; i < numbers.length; i++) {
-            number=number+numbers[i];
+            if(numbers[i]%2==0){
+                number=number+numbers[i];
+            }
+        }
+        for (int i = 0; i < numbers.length; i++) {
+            if(numbers[i]%2!=0){
+                number=number+numbers[i];
+            }
         }
         return number;
     }
