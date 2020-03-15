@@ -56,6 +56,7 @@ public class ServerCommunicator  {
         String output="";
         try {
             output=dataInputStream.readLine();
+            dataInputStream.close();
         }catch (IOException e){
             Log.d("ERROR: ",e.getMessage() );
         }
